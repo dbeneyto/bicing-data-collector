@@ -1,12 +1,29 @@
 #!/usr/bin/env python
 
-#       Disclaimer
+#
+# Disclaimer
+#
 
 import requests
 import json
+import pymongo
 
+#
+# Store data to its correspondent MongoDB collection
+#
+def store_data(bikesystem,jsondata):
+   connection_string = "mongodb://root:gnomes@localhost:27017/" + bikesystem
+   print connection_string
+   db = pymongo.MongoClient(connection_string)
+   collection = db.bicingdata
+#   system = db.bicingdata
+   collection.insert(jsondata)
+#   print db.db_name
 
-def get_city_data(url):
+#
+# Get all data from all stations from a URL
+#
+def get_city_data(url,bikesystem):
    try:
       response = requests.get(url)
    except Exception, e:
@@ -14,15 +31,16 @@ def get_city_data(url):
 
    if response.status_code == 200:
       json_content = json.loads(response.content)
-#      print response.content
       for value in json_content:
-#	  print value
-          print value['name']
+	  store_data(bikesystem,value)
 
 class Bikplugin(object):
 
 #    def __init__():
 
+#
+# Get all available stations from all countires/cities from citybik.es
+#
     @classmethod
     def get_data(self):
         try:
@@ -34,15 +52,6 @@ class Bikplugin(object):
 	    json_content = json.loads(response.content)
 	    for value in json_content:
                 city_url = value['url']
-#		print city_url
 		if city_url == 'http://api.citybik.es/bicing.json':
-	           get_city_data(city_url)
+	           get_city_data(city_url,value['name'])
 
-                   
-#       	     if type(value) == type(['']):
-#            	for sub_value in value:
-#                	strg = str(json.dumps(sub_value))
-#                	format_main_response(strg)
-#        	else:
-#            	print value
-#            print response.content
