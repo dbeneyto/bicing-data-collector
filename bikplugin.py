@@ -7,17 +7,21 @@
 import requests
 import json
 import pymongo
+from pymongo import Connection
 
 #
 # Store data to its correspondent MongoDB collection
 #
 def store_data(bikesystem,jsondata):
-   connection_string = "mongodb://root:gnomes@localhost:27017/" + bikesystem
-   print connection_string
-   db = pymongo.MongoClient(connection_string)
-   collection = db.bicingdata
+   conn = Connection()
+   db = conn['bicing']
+   collection = db['data']
+#   connection_string = "mongodb://root:gnomes@localhost:27017/" + bikesystem
+#   print connection_string
+#   db = pymongo.MongoClient(connection_string)
+#   collection = db.bicingdata
 #   system = db.bicingdata
-   collection.insert(jsondata)
+   db.data.insert(jsondata)
 #   print db.db_name
 
 #
