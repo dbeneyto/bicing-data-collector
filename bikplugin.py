@@ -8,14 +8,13 @@ import requests
 import json
 import pymongo
 import datetime
-from pymongo import Connection
 
 #
 # Store data to its correspondent MongoDB collection
 #
 def store_data(bikesystem,jsondata):
    # Create a local connection
-   conn = Connection()
+   conn = pymongo.MongoClient()
    db = conn['bicing']
    collection = db['data']
    db.data.insert(jsondata)
@@ -33,8 +32,10 @@ def get_city_data(url,bikesystem):
       json_content = json.loads(response.content)
       for value in json_content:
 	  # Replace API response timestamp value for suitable format to allow date searches within MongoDB
-	  value['timestamp'] = datetime.datetime.utcnow()
-	  store_data(bikesystem,value)
+	  value['timestamp'] = datetime.datetime.utcnow().replace( second=0, microsecond=0)
+
+      # Call to store response in MongoDB
+      store_data(bikesystem,json_content)
 
 class Bikplugin(object):
 
