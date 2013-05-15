@@ -4,6 +4,7 @@
 # Disclaimer
 #
 
+import time
 import requests
 import json
 import pymongo
@@ -12,12 +13,20 @@ import datetime
 #
 # Store data to its correspondent MongoDB collection
 #
-def store_data(bikesystem,jsondata):
+def store_data(bikesystem,jsondata,csvdata):
    # Create a local connection
    conn = pymongo.MongoClient()
    db = conn['bicing']
    collection = db['data']
    db.data.insert(jsondata)
+
+   #  TO DO - Add station details to complementary CSV - MongoDB collection
+   #  TO DO - Create complementary CSV to relationate ID - TIMESTAMP - CSV_DATA
+
+   # Store data in csv file
+   fd = open('document.csv','a+')
+   fd.write(csvdata)
+   fd.close()
 
 #
 # Get all data from all stations from a URL
@@ -30,12 +39,19 @@ def get_city_data(url,bikesystem):
 
    if response.status_code == 200:
       json_content = json.loads(response.content)
+      json_data = []
+      csv_data = ""
+      now = datetime.datetime.utcnow().replace( second=0, microsecond=0)
+      
       for value in json_content:
 	  # Replace API response timestamp value for suitable format to allow date searches within MongoDB
-	  value['timestamp'] = datetime.datetime.utcnow().replace( second=0, microsecond=0)
+          station_data = { "s":value['id'],"f":value['free'],"b":value['bikes'],"t":now }
+          csv_data += str(value['id'])+","+str(value['free'])+"," +str(value['bikes'])+"," +str(time.mktime(now.timetuple()))+ "\r\n"
+          json_data.append(station_data)
+          # TO DO - Add station details to complementary CSV - MongoDB collection
 
       # Call to store response in MongoDB
-      store_data(bikesystem,json_content)
+      store_data(bikesystem,json_data,csv_data)
 
 class Bikplugin(object):
 
