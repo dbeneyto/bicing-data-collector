@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
+from bikplugin import Bikplugin
 import ConfigParser
-import time
-from time import sleep
 import datetime
-from bikplugin import *
+import time
 
 def current_datetime(time_stamp):
         return datetime.datetime.fromtimestamp(time_stamp).strftime('%Y-%m-%d %H:%M:%S')
