@@ -33,7 +33,7 @@ def get_city_data(url,bikesystem):
             station_data = { "s":value['id'],"f":value['free'],"b":value['bikes'],"t":now }
             station_detail = {"id":value['id'],"cleaname":value['cleaname'],"name":value['name'],"nearby_stations":value['nearby_stations'],"number":value['number'],"lat":value['lat'],"lng":value['lng'] }
             csv_data += str(value['id'])+" "+str(value['free'])+" " +str(value['bikes'])+" " +str(time.mktime(now.timetuple()))+ "\r\n"
-            csv_station_detail += str(value['id'])+" "+str(value['cleaname'])+" " +str(value['nearby_stations'])+" " +str(value['number'])+str(value['lat'])+str(value['lng'])+"\r\n"
+            csv_station_detail += "#"+str(value['id'])+"#"+value['cleaname'].encode('utf-8')+"#" +str(value['nearby_stations'])+"#" +str(value['number'])+"#"+str(value['lat'])+"#"+str(value['lng'])+"\r\n"
             stations_data.append(station_data)
             stations_detail.append(station_detail)
             # TO DO - Add station details to complementary CSV - MongoDB collection

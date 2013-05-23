@@ -17,7 +17,7 @@ if __name__ == '__main__':
 #    interval = int(config.get('main', 'polling_interval'))
 
     # ts = timestamp
-    ts = time.time()
+#    ts = time.time()
 #    print(current_datetime(ts)+" - Initiating data collection")
 
 #    while 1:
