@@ -4,12 +4,15 @@ from bikplugin import Bikplugin
 import ConfigParser
 import datetime
 import time
+import os
 
 def current_datetime(time_stamp):
         return datetime.datetime.fromtimestamp(time_stamp).strftime('%Y-%m-%d %H:%M:%S')
 
 if __name__ == '__main__':
-
+    abspath = os.path.abspath(__file__)
+    dname = os.path.dirname(abspath)
+    os.chdir(dname)
     config = ConfigParser.ConfigParser()
     config.read('datacollector.cfg')
 
