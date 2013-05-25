@@ -10,6 +10,7 @@ import json
 import datetime
 import mongodbstore
 import csvstore
+import sys
 
 #
 # Get all data from all stations from a URL
@@ -18,7 +19,9 @@ def get_city_data(url,bikesystem):
     try:
         response = requests.get(url)
     except Exception, e:
-        print("An error occurred when collecting data")
+        print("ERROR: An error ocurred performing HTTP request to citybik.es API")
+        sys.exit(1)
+        
 
     if response.status_code == 200:
         json_content = json.loads(response.content)
@@ -36,7 +39,6 @@ def get_city_data(url,bikesystem):
             csv_station_detail += "#"+str(value['id'])+"#"+value['cleaname'].encode('utf-8')+"#" +str(value['nearby_stations'])+"#" +str(value['number'])+"#"+str(value['lat'])+"#"+str(value['lng'])+"\r\n"
             stations_data.append(station_data)
             stations_detail.append(station_detail)
-            # TO DO - Add station details to complementary CSV - MongoDB collection
 
         # Call to store response in MongoDB
         ds = mongodbstore.Mongodbstore()
@@ -56,7 +58,7 @@ class Bikplugin():
         try:
             response = requests.get('http://api.citybik.es/networks.json')
         except Exception, e:
-            print("An error occurred when collecting data")
+            print("ERROR: An error ocurred performing HTTP request to citybik.es API")
 
         if response.status_code == 200:
             json_content = json.loads(response.content)
