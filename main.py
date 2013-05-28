@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from bikplugin import Bikplugin
+from bicing import Bicingplugin
 import ConfigParser
 import datetime
 import time
@@ -28,8 +29,9 @@ if __name__ == '__main__':
 #    Bikplugin.get_data()
 #    sleep(interval)
     ts = time.time()
-    try:
-        print (current_datetime(ts)+" - Collecting data")
-        Bikplugin.get_data()
-    except Exception, e:
-        print("ERROR: An error occurred when collecting data at "+current_datetime(ts))
+#    try:
+    print (current_datetime(ts)+" - Collecting data")
+#        Bikplugin.get_data()
+    Bicingplugin.get_bicing_data()
+#    except Exception, e:
+#        print("ERROR: An error occurred when collecting data at "+current_datetime(ts))
