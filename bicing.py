@@ -40,13 +40,13 @@ def get_city_data(bikesystem,json_content):
         csvds = csvstore.Csvstore()
         csvds.store_data(bikesystem, csv_data, csv_station_detail)
 
-class Bicingplugin():
+class Datacollectorplugin():
 
 #
 # Get all available stations from all countries/cities from citybik.es
 #
     @classmethod
-    def get_bicing_data(self):
+    def get_data(self):
         try:
             response = requests.get('https://www.bicing.cat/es/formmap/getJsonObject')
         except Exception, e:

@@ -48,7 +48,7 @@ def get_city_data(url,bikesystem):
         csvds = csvstore.Csvstore()
         csvds.store_data(bikesystem, csv_data, csv_station_detail)
 
-class Bikplugin():
+class Datacollectorplugin():
 
 #
 # Get all available stations from all countries/cities from citybik.es
