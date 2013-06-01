@@ -26,7 +26,7 @@ def get_city_data(bikesystem,json_content):
             
             # Replace API response timestamp value for suitable format to allow date searches within MongoDB
             station_data = { "s":value['StationID'],"f":value['StationFreeSlot'],"b":value['StationAvailableBikes'],"t":now }
-            station_detail = {"id":value['StationID'],"cleaname":value['AddressStreet1'],"name":value['StationName'],"nearby_stations":value['NearbyStationList'],"number":value['AddressNumber'],"lat":value['AddressGmapsLatitude'],"lng":value['AddressGmapsLongitude'] }
+            station_detail = {"id":value['StationID'],"cleaname":value['AddressStreet1'],"name":value['StationName'],"nearby_stations":value['NearbyStationList'],"number":value['AddressNumber'],'location':{ 'lon':float(value['AddressGmapsLongitude']),'lat':float(value['AddressGmapsLatitude'])} }
             csv_data += str(value['StationID'])+" "+str(value['StationFreeSlot'])+" " +str(value['StationAvailableBikes'])+" " +str(time.mktime(now.timetuple()))+ "\r\n"
             csv_station_detail += "#"+str(value['StationID'])+"#"+value['AddressStreet1'].encode('utf-8')+"#" +str(value['NearbyStationList'])+"#" +str(value['AddressNumber'])+"#"+str(value['AddressGmapsLatitude'])+"#"+str(value['AddressGmapsLongitude'])+"\r\n"
             stations_data.append(station_data)
